@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/enduro/static/css/main.e6c13ad2.css",
+    "main.js": "/enduro/static/js/main.8aaa228b.js",
+    "static/js/453.8a4ac3de.chunk.js": "/enduro/static/js/453.8a4ac3de.chunk.js",
+    "index.html": "/enduro/index.html",
+    "main.e6c13ad2.css.map": "/enduro/static/css/main.e6c13ad2.css.map",
+    "main.8aaa228b.js.map": "/enduro/static/js/main.8aaa228b.js.map",
+    "453.8a4ac3de.chunk.js.map": "/enduro/static/js/453.8a4ac3de.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.8aaa228b.js"
+  ]
+}
