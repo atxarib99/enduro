@@ -4,17 +4,46 @@ import dataclasses
 
 def flex_calc(strategyRequest: StrategyParameters) -> list:
     strats = []
+    fuels = []
     #flex fuel_usage [-0.05, +0.05]
-    fuels = [strategyRequest.fuel_usage + fuel/100-strategyRequest.sweep for fuel in range(1, int(abs(strategyRequest.sweep)*200))]
+    if strategyRequest.sweep > 0:
+        fuels = [strategyRequest.fuel_usage + fuel/100-strategyRequest.sweep for fuel in range(1, int(abs(strategyRequest.sweep)*200))]
+    else:
+        fuels.append(strategyRequest.fuel_usage)
+
     print(fuels)
+    stint_count = None
+    last_stints = None
+    same_fuels = []
+    min_fuel_usage = None
+    max_fuel_usage = None
     for i in fuels:
         curStratReq = dataclasses.replace(strategyRequest)
         curStratReq.fuel_usage = i
         stints = calculateStrat(curStratReq)
-        strats.append({i: stints})
+        fuel_usage = round(i, 2)
+        fuel_usage = str(fuel_usage)
+        #handle first strat 
+        if last_stints is None:
+            last_stints = stints
+        #check if strat is the same despite fuel_usage difference
+        #if start_time and end times match
+        if stints[0][0] == last_stints[0][0] and stints[-1][-1] == last_stints[-1][-1]:
+            same_fuels.append(fuel_usage)
+        #if not the same, this strategy is different
+        else:
+            #add last strategy
+            strats.append({same_fuels[0]+"-"+same_fuels[-1]: last_stints})
+            #reset 
+            same_fuels = []
+            same_fuels.append(fuel_usage)
+            last_stints = stints
+
+        if i == fuels[-1] and len(strats) == 0:
+            same_fuels.append(fuel_usage)
+            strats.append({same_fuels[0]+"-"+same_fuels[-1]: last_stints})
 
     return strats
-
 
 
 def calculateStrat(strategyRequest: StrategyParameters) -> list:

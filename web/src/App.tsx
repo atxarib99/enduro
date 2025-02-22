@@ -76,7 +76,7 @@ const App: React.FC = () => {
 						<Slider
 							value={sweep}
 							onChange={(e) => handleInputChange(e, setSweep)}
-							min={0.01}
+							min={0}
 							max={1}
 							step={0.01}
 							marks
