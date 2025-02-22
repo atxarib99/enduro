@@ -22,6 +22,8 @@ components:
     StrategyRequest:
       type: object
       properties:
+        fuel_remaining:
+          type: number
         fuel_usage:
           type: number
         max_fuel:

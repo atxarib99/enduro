@@ -36,6 +36,8 @@ def generate(strategyRequest):
     
     start_time = datetime.strptime(time_string, format_string)
     print(start_time)
+    
+    remaining_fuel = strategyRequest['remainingFuel']
 
     fuel_usage = strategyRequest['fuelUsage']
     max_fuel = strategyRequest['maxFuel']
@@ -43,7 +45,7 @@ def generate(strategyRequest):
     lap_time = strategyRequest['lapTime']
     sweep = strategyRequest['sweep']
     pit_delta = strategyRequest['pitDelta']
-    params = StrategyParameters(fuel_usage, max_fuel, remaining_time, lap_time, start_time, sweep, pit_delta)
+    params = StrategyParameters(remaining_fuel, fuel_usage, max_fuel, remaining_time, lap_time, start_time, sweep, pit_delta)
     return strategy.flex_calc(strategyRequest=params)
 
 if __name__ == "__main__":

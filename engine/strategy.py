@@ -18,8 +18,7 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
 
 
 def calculateStrat(strategyRequest: StrategyParameters) -> list:
-    
-    #TODO: handle mid stint behavior
+
 
     laps_per_stint = strategyRequest.max_fuel/strategyRequest.fuel_usage
     time_per_stint_sec = strategyRequest.lap_time * int(laps_per_stint)
@@ -29,6 +28,21 @@ def calculateStrat(strategyRequest: StrategyParameters) -> list:
     pitdelta = strategyRequest.pit_delta
     remaining_time = strategyRequest.remaining_time
     current_time = strategyRequest.start_time
+
+    
+    #allow for another sweep?
+    #handle mid stint 
+    if strategyRequest.remaining_fuel > 0:
+        stime = current_time
+        laps_remaining_stint = strategyRequest.remaining_fuel/strategyRequest.fuel_usage
+        time_remaining_stint = strategyRequest.lap_time * int(laps_remaining_stint)
+        current_time += timedelta(seconds=time_remaining_stint+pitdelta)
+        endtime = current_time
+        remaining_time -= time_per_stint_sec + pitdelta
+        stints.append((stime, endtime))
+
+
+    #handle future stints
     while remaining_time > 0:
         stime = current_time
         current_time += timedelta(seconds=time_per_stint_sec+pitdelta)

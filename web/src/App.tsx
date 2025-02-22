@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Slider, Tooltip, IconButton } from '@mui/material';
+import { Accordion, AccordionActions, AccordionSummary, AccordionDetails, Box, Button, Checkbox, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Slider, Tooltip, IconButton } from '@mui/material';
 
-import InfoIcon from '@mui/icons-material/Info';
+import { Info, ExpandMore } from '@mui/icons-material';
 
 const App: React.FC = () => {
+  const [remainingFuel, setRemainingFuel] = useState<number | "">(0.00); 
   const [fuelUsage, setFuelUsage] = useState<number | "">(3.50);
   const [maxFuel, setMaxFuel] = useState<number | "">(89);
   const [raceTime, setRaceTime] = useState<number | "">(3600);
@@ -23,7 +24,7 @@ const App: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const data = { fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta };
+    const data = { remainingFuel, fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta };
 
     try {
       const response = await fetch('http://localhost:3001/enduro/v1/generate-strats', {
@@ -67,8 +68,8 @@ const App: React.FC = () => {
               <Typography gutterBottom>Fuel Sweep: {sweep !== "" ? sweep.toFixed(2) : "0.05"}</Typography>
               <Tooltip title={"Will calculate strategies +-" + sweep + "L of fuel in steps of 0.01L"}>
               <IconButton>
-                <InfoIcon sx={{paddingLeft: "5px"}}>
-                </InfoIcon>
+                <Info sx={{paddingLeft: "5px"}}>
+                </Info>
               </IconButton>
               </Tooltip>
             </Box>
@@ -119,9 +120,32 @@ const App: React.FC = () => {
             margin="normal"
           />
         </Box>
+
+        <Accordion sx={{ marginBottom: '20px' }} >
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography component="span">Mid Stint Calc</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TextField
+              label="Remaining Fuel (L)"
+              type="number"
+              inputProps={{step: 0.1}}
+              value={remainingFuel}
+              onChange={(e) => handleInputChange(e, setRemainingFuel)}
+              fullWidth
+              margin="normal"
+            />
+          </AccordionDetails>
+        </Accordion>
+
         <Button type="submit" variant="contained" color="primary">
           Calculate Strategy
         </Button>
+        
       </form>
 
       {stints.length > 0 && (
