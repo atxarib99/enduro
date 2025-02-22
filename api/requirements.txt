@@ -1,0 +1,5 @@
+numpy
+connexion
+connexion[flask]
+connexion[swagger-ui]
+connexion[uvicorn]

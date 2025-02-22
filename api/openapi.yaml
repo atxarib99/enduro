@@ -1,0 +1,68 @@
+openapi: "3.0.0"
+info:
+  title: "flop-gen api"
+  description: "REST API for interfacing flop-gen api and engine"
+  version: "1.0.0"
+  contact:
+    name: "Arib Dhuka"
+    email: "atxarib99@gmail.com"
+
+servers:
+  - url: "http://localhost:3001/enduro/v1"
+
+components:
+  schemas:
+
+    Strategy:
+      type: object
+      properties:
+        todo:
+          type: string
+
+    StrategyRequest:
+      type: object
+      properties:
+        fuel_usage:
+          type: number
+        max_fuel:
+          type: number
+        remaining_time:
+          type: number
+        lap_time:
+          type: number
+
+
+  requestBodies:
+    StrategyRequest:
+      description: 'Strategy Parameters'
+      required: true
+      x-body-name: 'strategyRequest'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StrategyRequest'
+
+
+paths:
+  /generate-strats:
+    post:
+      operationId: app.generate
+      description: "generates optimal strategies based on inputs"
+      tags:
+        - strategy
+      requestBody:
+        $ref: '#/components/requestBodies/StrategyRequest'
+      responses:
+        "200":
+          description: "Successfully generated strategy"
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Strategy'
+
+tags:
+  - name: strategy
+    description: "Strategy calls"
+
+  
