@@ -33,7 +33,13 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
         #if not the same, this strategy is different
         else:
             #add last strategy
-            strats.append({same_fuels[0]+"-"+same_fuels[-1]: last_stints})
+            #pretty format
+            fuel_key = ""
+            if same_fuels[0] == same_fuels[-1]:
+                fuel_key = same_fuels[0]
+            else:
+                same_fuels[0]+"-"+same_fuels[-1]
+            strats.append({fuel_key: last_stints})
             #reset 
             same_fuels = []
             same_fuels.append(fuel_usage)
@@ -41,7 +47,13 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
 
         if i == fuels[-1] and len(strats) == 0:
             same_fuels.append(fuel_usage)
-            strats.append({same_fuels[0]+"-"+same_fuels[-1]: last_stints})
+            #pretty format
+            fuel_key = ""
+            if same_fuels[0] == same_fuels[-1]:
+                fuel_key = same_fuels[0]
+            else:
+                same_fuels[0]+"-"+same_fuels[-1]
+            strats.append({fuel_key: last_stints})
 
     return strats
 
