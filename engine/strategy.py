@@ -52,7 +52,7 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
             if same_fuels[0] == same_fuels[-1]:
                 fuel_key = same_fuels[0]
             else:
-                same_fuels[0]+"-"+same_fuels[-1]
+                fuel_key = same_fuels[0]+"-"+same_fuels[-1]
             strats.append({fuel_key: last_stints})
 
     return strats
