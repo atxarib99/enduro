@@ -78,7 +78,7 @@ const App: React.FC = () => {
 
           <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
             <Routes>
-              <Route path="/" element={<Navigate to="/home" replace />} />
+              <Route path="/enduro" element={<Navigate to="/home" replace />} />
               <Route path="/home" element={<Home />} />
               <Route path="/endurance-calc" element={<EnduranceCalc />} />
               <Route path="/fuel-calc" element={<FuelCalc />} />
