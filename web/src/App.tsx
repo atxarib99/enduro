@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Home from './Home';
 import EnduranceCalc from './EnduranceCalc';
+import FuelCalc from './FuelCalc';
 
 const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -68,6 +69,9 @@ const App: React.FC = () => {
                 <ListItem button component={Link} to="/endurance-calc">
                   <ListItemText primary="Endurance Calc" />
                 </ListItem>
+                <ListItem button component={Link} to="/fuel-calc">
+                  <ListItemText primary="Fuel Calc" />
+                </ListItem>
               </List>
             </Box>
           </Drawer>
@@ -76,6 +80,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/endurance-calc" element={<EnduranceCalc />} />
+              <Route path="/fuel-calc" element={<FuelCalc />} />
             </Routes>
           </Box>
         </Box>
