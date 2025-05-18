@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   };
 
   return (
-		<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', height: '100vh' }}>
+		<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', height: '90vh' }}>
 			{/* Button to navigate to EnduranceCalc */}
 			{/*<Button variant="contained" onClick={goToEnduranceCalc}>
 				Go to Endurance Calculator
