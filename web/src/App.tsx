@@ -82,6 +82,7 @@ const App: React.FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/endurance-calc" element={<EnduranceCalc />} />
               <Route path="/fuel-calc" element={<FuelCalc />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Box>
         </Box>
