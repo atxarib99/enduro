@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Drawer, IconButton, List, ListItem, ListItemText, Toolbar, AppBar, Typography, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes, Link } from 'react-router-dom';
 import Home from './Home';
 import EnduranceCalc from './EnduranceCalc';
 import FuelCalc from './FuelCalc';
