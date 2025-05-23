@@ -27,9 +27,6 @@ def generate(strategyRequest):
     #TODO: handle mid stint behavior
     print(strategyRequest)
 
-    #TODO: add to request spec
-    
-    start_time = datetime.strptime(time_string, format_string)
     start_time = datetime.fromisoformat(strategyRequest['startTime'].replace('Z', '+00:00'))
     start_time = start_time.replace(second=0, microsecond=0)
     
