@@ -32,6 +32,8 @@ components:
           type: number
         lap_time:
           type: number
+        start_time:
+          type: string
 
 
   requestBodies:

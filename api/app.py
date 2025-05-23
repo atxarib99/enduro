@@ -27,15 +27,11 @@ def generate(strategyRequest):
     #TODO: handle mid stint behavior
     print(strategyRequest)
 
-    # Example string
     #TODO: add to request spec
-    time_string = "2025-02-01 18:00:00"
-
-    # Define the format of the string
-    format_string = "%Y-%m-%d %H:%M:%S"
     
     start_time = datetime.strptime(time_string, format_string)
-    print(start_time)
+    start_time = datetime.fromisoformat(strategyRequest['startTime'].replace('Z', '+00:00'))
+    start_time = start_time.replace(second=0, microsecond=0)
     
     remaining_fuel = strategyRequest['remainingFuel']
 

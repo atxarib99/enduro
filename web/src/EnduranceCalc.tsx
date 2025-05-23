@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Accordion, AccordionActions, AccordionSummary, AccordionDetails, Box, Button, Checkbox, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Slider, Tooltip, IconButton } from '@mui/material';
 
 import { Info, ExpandMore } from '@mui/icons-material';
@@ -12,6 +16,7 @@ const EnduranceCalc: React.FC = () => {
   const [stints, setStints] = useState<any[]>([]); // Replace 'any[]' with a specific type if needed
   const [sweep, setSweep] = useState<number>(0.05); // Default to 0.05
   const [pitDelta, setPitDelta] = useState<number>(60); // Default to 0.05
+  const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -24,10 +29,10 @@ const EnduranceCalc: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const data = { remainingFuel, fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta };
+    const data = { remainingFuel, fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta, startTime };
 
     try {
-      const response = await fetch('https://dev.arib.dev:8001/enduro/v1/generate-strats', {
+      const response = await fetch('http://localhost:3001/enduro/v1/generate-strats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,6 +124,15 @@ const EnduranceCalc: React.FC = () => {
             fullWidth
             margin="normal"
           />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+              sx={{ marginTop: "15px" }}
+              label="Race Start Time"
+              value={startTime}
+              onChange={(newValue) => setStartTime(newValue)}
+              margin="normal"
+            />
+          </LocalizationProvider>
         </Box>
 
         <Accordion sx={{ marginBottom: '20px' }} >
