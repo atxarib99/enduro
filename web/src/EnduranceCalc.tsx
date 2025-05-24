@@ -173,7 +173,7 @@ const EnduranceCalc: React.FC = () => {
 						const intervals = stintObj[targetFuel] || [];
 
 						return (
-							<Box sx={{ marginTop: '10px' }}>
+							<Box sx={{ marginTop: '10px' }} key={`${targetFuel}`}>
 								<body>
 									Stint count: {intervals.length}
 								</body>
