@@ -30,6 +30,18 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
         #if start_time and end times match
         if stints[0][0] == last_stints[0][0] and stints[-1][-1] == last_stints[-1][-1]:
             same_fuels.append(fuel_usage)
+
+            #if last fuel, we need to add it to strats
+            if i == fuels[-1]:
+                same_fuels.append(fuel_usage)
+                #pretty format
+                fuel_key = ""
+                if same_fuels[0] == same_fuels[-1]:
+                    fuel_key = same_fuels[0]
+                else:
+                    fuel_key = same_fuels[0]+"-"+same_fuels[-1]
+                strats.append({fuel_key: last_stints})
+
         #if not the same, this strategy is different
         else:
             #add last strategy
@@ -44,16 +56,6 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
             same_fuels = []
             same_fuels.append(fuel_usage)
             last_stints = stints
-
-        if i == fuels[-1] and len(strats) == 0:
-            same_fuels.append(fuel_usage)
-            #pretty format
-            fuel_key = ""
-            if same_fuels[0] == same_fuels[-1]:
-                fuel_key = same_fuels[0]
-            else:
-                fuel_key = same_fuels[0]+"-"+same_fuels[-1]
-            strats.append({fuel_key: last_stints})
 
     return strats
 
