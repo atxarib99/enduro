@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info:
-  title: "flop-gen api"
-  description: "REST API for interfacing flop-gen api and engine"
+  title: "enduro api"
+  description: "REST API for interfacing enduro api and engine"
   version: "1.0.0"
   contact:
     name: "Arib Dhuka"
@@ -16,8 +16,48 @@ components:
     Strategy:
       type: object
       properties:
-        todo:
-          type: string
+        strats:
+          type: array
+          items:
+            type: object
+            properties:
+              fuel:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: string
+      example: |
+        [
+          {
+            "3.46-3.54": [
+              [
+                "2025-05-24T00:47:00+00:00",
+                "2025-05-24T01:39:02.500000+00:00"
+              ],
+              [
+                "2025-05-24T01:39:02.500000+00:00",
+                "2025-05-24T02:31:05+00:00"
+              ]
+            ]
+          },
+          {
+            "3.55-3.64": [
+              [
+                "2025-05-24T00:47:00+00:00",
+                "2025-05-24T01:39:02.500000+00:00"
+              ],
+              [
+                "2025-05-24T01:39:02.500000+00:00",
+                "2025-05-24T02:31:05+00:00"
+              ]
+            ]
+          }
+        ]
+
+
+
+
 
     StrategyRequest:
       type: object
