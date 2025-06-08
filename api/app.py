@@ -1,4 +1,4 @@
-from connexion import FlaskApp
+from connexion import AsyncApp 
 import sys
 import os
 import importlib
@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
 
-application = FlaskApp("enduro")
+application = AsyncApp("enduro")
 
 application.add_middleware(
     CORSMiddleware,
