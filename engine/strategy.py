@@ -27,7 +27,9 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
             last_stints = stints
         #check if strat is the same despite fuel_usage difference
         #if start_time and end times match
-        if stints[0][0] == last_stints[0][0] and stints[-1][1] == last_stints[-1][1]:
+        #if stints[0][0] == last_stints[0][0] and stints[-1][1] == last_stints[-1][1]:
+        #if this fuel_usage calculates the same number of laps per stint, it should be in the same bucket
+        if strategyRequest.max_fuel // i == strategyRequest.max_fuel // (i - 0.01):
             same_fuels.append(fuel_usage)
 
             #if last fuel, we need to add it to strats
