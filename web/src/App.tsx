@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const theme = createTheme({
     palette: {
         primary: {
-            light: '#d40000',
+            light: '#FF6666',
             main: '#d40000',
             dark: '#d40000',
             contrastText: '#fff',

@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { Accordion, AccordionActions, AccordionSummary, AccordionDetails, Box, Button, Checkbox, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Slider, Tooltip, IconButton } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 import { Info, ExpandMore } from '@mui/icons-material';
 
@@ -17,6 +18,10 @@ const EnduranceCalc: React.FC = () => {
   const [sweep, setSweep] = useState<number>(0.05); // Default to 0.05
   const [pitDelta, setPitDelta] = useState<number>(60); // Default to 0.05
   const [startTime, setStartTime] = useState<Dayjs | null>(dayjs());
+	
+	const buttons = ["2.4hr", "6hr", "12hr", "24hr"];
+  const theme = useTheme();
+
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -32,7 +37,7 @@ const EnduranceCalc: React.FC = () => {
     const data = { remainingFuel, fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta, startTime };
 
     try {
-      const response = await fetch('https://dev.arib.dev:8001/enduro/v1/generate-strats', {
+      const response = await fetch('http://localhost:3001/enduro/v1/generate-strats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,6 +102,36 @@ const EnduranceCalc: React.FC = () => {
             fullWidth
             margin="normal"
           />
+					<Box display="flex" width="100%" gap={2} sx={{marginTop: '10px'}}>
+						<Button
+							variant="contained"
+							sx={{ flexGrow: 1, backgroundColor: theme.palette.primary.light }}
+							onClick={() => setRaceTime(9600)}
+						>
+							2.4hr
+						</Button>
+						<Button
+							variant="contained"
+							sx={{ flexGrow: 1, backgroundColor: theme.palette.primary.light }}
+							onClick={() => setRaceTime(21600)}
+						>
+							6hr
+						</Button>
+						<Button
+							variant="contained"
+							sx={{ flexGrow: 1, backgroundColor: theme.palette.primary.light }}
+							onClick={() => setRaceTime(43200)}
+						>
+							12hr
+						</Button>
+						<Button
+							variant="contained"
+							sx={{ flexGrow: 1, backgroundColor: theme.palette.primary.light }}
+							onClick={() => setRaceTime(86400)}
+						>
+							24hr
+						</Button>
+					</Box>
           <TextField
             label="Race Time (seconds)"
             type="number"
