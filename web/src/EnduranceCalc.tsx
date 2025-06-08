@@ -184,6 +184,7 @@ const EnduranceCalc: React.FC = () => {
 											<TableCell>Target Fuel Consumption</TableCell>
 											<TableCell>Start Time</TableCell>
 											<TableCell>End Time</TableCell>
+											<TableCell>Laps In Stint</TableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
@@ -192,6 +193,7 @@ const EnduranceCalc: React.FC = () => {
 												<TableCell>{targetFuel}</TableCell>
 												<TableCell>{new Date(interval[0]).toLocaleString()}</TableCell>
 												<TableCell>{new Date(interval[1]).toLocaleString()}</TableCell>
+												<TableCell>{interval[2]}</TableCell>
 											</TableRow>
 										))}
 									</TableBody>

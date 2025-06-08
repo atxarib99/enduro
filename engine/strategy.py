@@ -11,7 +11,6 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
     else:
         fuels.append(strategyRequest.fuel_usage)
 
-    print(fuels)
     stint_count = None
     last_stints = None
     same_fuels = []
@@ -28,7 +27,7 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
             last_stints = stints
         #check if strat is the same despite fuel_usage difference
         #if start_time and end times match
-        if stints[0][0] == last_stints[0][0] and stints[-1][-1] == last_stints[-1][-1]:
+        if stints[0][0] == last_stints[0][0] and stints[-1][1] == last_stints[-1][1]:
             same_fuels.append(fuel_usage)
 
             #if last fuel, we need to add it to strats
@@ -79,19 +78,34 @@ def calculateStrat(strategyRequest: StrategyParameters) -> list:
         stime = current_time
         laps_remaining_stint = strategyRequest.remaining_fuel/strategyRequest.fuel_usage
         time_remaining_stint = strategyRequest.lap_time * int(laps_remaining_stint)
-        current_time += timedelta(seconds=time_remaining_stint+pitdelta)
+        current_time += timedelta(seconds=time_remaining_stint)
         endtime = current_time
-        remaining_time -= time_per_stint_sec + pitdelta
-        stints.append((stime, endtime))
+        remaining_time -= time_remaining_stint
+        stints.append((stime, endtime, int(laps_remaining_stint)))
 
 
     #handle future stints
     while remaining_time > 0:
         stime = current_time
-        current_time += timedelta(seconds=time_per_stint_sec+pitdelta)
+        #lap by lap reduction, this will ensure laps shown in UI matches expected laps, including last stint
+        fuel_remaining = strategyRequest.max_fuel
+        laps_done = 0
+        first_lap = True 
+        while remaining_time > 0 and fuel_remaining > strategyRequest.fuel_usage:
+            laps_done += 1
+            #if first lap, add pit delta
+            if first_lap:
+                remaining_time -= strategyRequest.lap_time + strategyRequest.pit_delta
+                first_lap = False
+            else:
+                remaining_time -= strategyRequest.lap_time
+            fuel_remaining -= strategyRequest.fuel_usage
+        
+        current_time += timedelta(seconds=(laps_done*strategyRequest.lap_time)+pitdelta)
         endtime = current_time
-        remaining_time -= time_per_stint_sec + pitdelta
-        stints.append((stime, endtime))
+        #hmm how to manage last lap pitdelta
+        #remaining_time -= (laps_done*strategyRequest.lap_time) + pitdelta
+        stints.append((stime, endtime, int(laps_done)))
 
     return stints
 
