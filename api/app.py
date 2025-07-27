@@ -25,6 +25,8 @@ application.add_api("openapi.yaml", dir='./')
 
 def generate(strategyRequest):
 
+    print(strategyRequest)
+
     start_time = datetime.fromisoformat(strategyRequest['startTime'].replace('Z', '+00:00'))
     start_time = start_time.replace(second=0, microsecond=0)
     

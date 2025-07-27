@@ -26,8 +26,6 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
         if last_stints is None:
             last_stints = stints
         #check if strat is the same despite fuel_usage difference
-        #if start_time and end times match
-        #if stints[0][0] == last_stints[0][0] and stints[-1][1] == last_stints[-1][1]:
         #if this fuel_usage calculates the same number of laps per stint, it should be in the same bucket
         if strategyRequest.max_fuel // i == strategyRequest.max_fuel // (i - 0.01):
             same_fuels.append(fuel_usage)
@@ -44,7 +42,8 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
                 strats.append({fuel_key: last_stints})
 
         #if not the same, this strategy is different
-        else:
+        #check that same_fuels has something in it, otherwise we will index out of range
+        elif len(same_fuels) != 0:
             #add last strategy
             #pretty format
             fuel_key = ""
@@ -57,6 +56,24 @@ def flex_calc(strategyRequest: StrategyParameters) -> list:
             same_fuels = []
             same_fuels.append(fuel_usage)
             last_stints = stints
+        #in cases where the very first fuel we are checking is the edge of a strategy
+        # or in other words, fuels[0] - 0.01 produces a different num of laps per stints than fuels[0]
+        # the first if branch will fail, we need to ensure that we aren't checking an empty same_fuels in the second branch
+        # in cases where it is empty, this if branch:
+        # add it to same_fuels, and if its the only fuel to check, add to strats
+        else:
+            same_fuels.append(fuel_usage)
+            #if last fuel, we need to add it to strats
+            if i == fuels[-1]:
+                same_fuels.append(fuel_usage)
+                #pretty format
+                fuel_key = ""
+                if same_fuels[0] == same_fuels[-1]:
+                    fuel_key = same_fuels[0]
+                else:
+                    fuel_key = same_fuels[0]+"-"+same_fuels[-1]
+                strats.append({fuel_key: last_stints})
+
 
     return strats
 
