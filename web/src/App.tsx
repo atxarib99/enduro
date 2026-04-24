@@ -73,8 +73,8 @@ const App: React.FC = () => {
                 <ListItem button component={Link} to="/fuel-calc">
                   <ListItemText primary="Fuel Calc" />
                 </ListItem>
-                <ListItem button component={Link} to="/sector-analysis">
-                  <ListItemText primary="Sector Analysis" />
+                <ListItem button component={Link} to="/motec-sector-builder">
+                  <ListItemText primary="MoTeC Sector Builder" />
                 </ListItem>
               </List>
             </Box>
@@ -86,7 +86,7 @@ const App: React.FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/endurance-calc" element={<EnduranceCalc />} />
               <Route path="/fuel-calc" element={<FuelCalc />} />
-              <Route path="/sector-analysis" element={<SectorAnalysis />} />
+              <Route path="/motec-sector-builder" element={<SectorAnalysis />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Box>

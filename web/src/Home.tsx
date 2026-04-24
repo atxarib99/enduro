@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   };
 
   const goToSectorAnalysis = () => {
-    navigate('/sector-analysis');
+    navigate('/motec-sector-builder');
   };
 
   return (
