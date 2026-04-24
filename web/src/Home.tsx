@@ -48,9 +48,12 @@ const Home: React.FC = () => {
 						<FaRunning size="50px"/>
 					</CardMedia>
 					<CardContent >
-						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: 80 }}>
 							<Typography sx={{ fontSize: '20px'}} >
 								Endurance Calculator
+							</Typography>
+							<Typography sx={{ fontSize: '14px', color: 'text.secondary', mt: 0.5 }} >
+								Optimize pit stop and fuel strategy
 							</Typography>
 						</Box>
 					</CardContent>
@@ -73,9 +76,12 @@ const Home: React.FC = () => {
             <BsFuelPumpFill size="50px"/>
 					</CardMedia>
 					<CardContent >
-						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: 80 }}>
 							<Typography sx={{ fontSize: '20px'}} >
 								Fuel Calculator
+							</Typography>
+							<Typography sx={{ fontSize: '14px', color: 'text.secondary', mt: 0.5 }} >
+								Calculate fuel load for a race
 							</Typography>
 						</Box>
 					</CardContent>
@@ -98,12 +104,12 @@ const Home: React.FC = () => {
 						<MdTimeline size="50px"/>
 					</CardMedia>
 					<CardContent >
-						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', minHeight: 80 }}>
 							<Typography sx={{ fontSize: '20px'}} >
-								Sector Analysis
+								MoTeC Sector Builder
 							</Typography>
 							<Typography sx={{ fontSize: '14px', color: 'text.secondary', mt: 0.5 }} >
-								Extract sector boundaries from MoTeC telemetry
+								Map iRacing sectors from MoTeC telemetry
 							</Typography>
 						</Box>
 					</CardContent>

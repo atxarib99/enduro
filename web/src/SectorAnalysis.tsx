@@ -86,12 +86,12 @@ const SectorAnalysis: React.FC = () => {
     <Box sx={{ padding: '20px' }}>
       {/* Header */}
       <Typography variant="h4" gutterBottom>
-        Sector Analysis
+        MoTeC Sector Builder
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ marginBottom: '30px' }}>
-        Upload a MoTeC telemetry file (.ld) recorded from a full stint to extract sector boundary
-        distances. The tool analyzes beacon channel data to identify where sector changes occur on
-        track.
+        Upload an iRacing MoTeC telemetry file (.ld) from a full stint to generate sector boundary
+        distances. This lets you align your MoTeC sections with iRacing's sectors so your in-session
+        and post-analysis data match.
       </Typography>
 
       {/* Upload section */}
@@ -118,8 +118,8 @@ const SectorAnalysis: React.FC = () => {
         <UploadFile sx={{ fontSize: 48, color: 'text.secondary', marginBottom: '12px' }} />
 
         <Typography variant="body2" color="text.secondary" sx={{ marginBottom: '16px' }}>
-          Select a <strong>.ld</strong> MoTeC/iRacing telemetry file recorded from a complete stint.
-          The file will be analyzed locally for beacon channel data.
+          Select an iRacing MoTeC <strong>.ld</strong> file recorded from a complete stint.
+          The file must contain Beacon and Lap Distance channels.
         </Typography>
 
         <Button
