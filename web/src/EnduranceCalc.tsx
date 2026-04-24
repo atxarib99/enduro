@@ -37,7 +37,7 @@ const EnduranceCalc: React.FC = () => {
     const data = { remainingFuel, fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta, startTime };
 
     try {
-      const response = await fetch('http://localhost:3001/enduro/v1/generate-strats', {
+      const response = await fetch('https://dev.arib.dev/enduro/v1/generate-strats', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
