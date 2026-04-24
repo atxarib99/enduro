@@ -3,6 +3,7 @@ import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Typography }
 import { useNavigate } from 'react-router-dom';
 import { FaRunning } from "react-icons/fa";
 import { BsFuelPumpFill } from "react-icons/bs";
+import { MdTimeline } from "react-icons/md";
 
 const Home: React.FC = () => {
   // useNavigate hook to programmatically navigate to other routes
@@ -14,6 +15,10 @@ const Home: React.FC = () => {
 
   const goToFuelCalc = () => {
     navigate('/fuel-calc');
+  };
+
+  const goToSectorAnalysis = () => {
+    navigate('/sector-analysis');
   };
 
   return (
@@ -71,6 +76,34 @@ const Home: React.FC = () => {
 						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
 							<Typography sx={{ fontSize: '20px'}} >
 								Fuel Calculator
+							</Typography>
+						</Box>
+					</CardContent>
+				</CardActionArea>
+			</Card>
+
+			<Card sx={{ width: 300, maxWidth: 300 }}>
+				<CardActionArea onClick={goToSectorAnalysis}>
+					<CardMedia
+						component="div"
+						sx={{
+							height: 140,
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							backgroundColor: '#f0f0f0',
+						}}
+					>
+						{/* Icon inside the CardMedia */}
+						<MdTimeline size="50px"/>
+					</CardMedia>
+					<CardContent >
+						<Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+							<Typography sx={{ fontSize: '20px'}} >
+								Sector Analysis
+							</Typography>
+							<Typography sx={{ fontSize: '14px', color: 'text.secondary', mt: 0.5 }} >
+								Extract sector boundaries from MoTeC telemetry
 							</Typography>
 						</Box>
 					</CardContent>

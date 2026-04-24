@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Navigate, Route, Routes, Link } from 'react-ro
 import Home from './Home';
 import EnduranceCalc from './EnduranceCalc';
 import FuelCalc from './FuelCalc';
+import SectorAnalysis from './SectorAnalysis';
 
 const App: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -72,6 +73,9 @@ const App: React.FC = () => {
                 <ListItem button component={Link} to="/fuel-calc">
                   <ListItemText primary="Fuel Calc" />
                 </ListItem>
+                <ListItem button component={Link} to="/sector-analysis">
+                  <ListItemText primary="Sector Analysis" />
+                </ListItem>
               </List>
             </Box>
           </Drawer>
@@ -82,6 +86,7 @@ const App: React.FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/endurance-calc" element={<EnduranceCalc />} />
               <Route path="/fuel-calc" element={<FuelCalc />} />
+              <Route path="/sector-analysis" element={<SectorAnalysis />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Box>

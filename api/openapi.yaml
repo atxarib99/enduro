@@ -75,6 +75,40 @@ components:
         start_time:
           type: string
 
+    SectorAnalysisResponse:
+      type: object
+      properties:
+        num_laps:
+          type: integer
+          description: "Number of complete laps analyzed"
+        num_sectors:
+          type: integer
+          description: "Number of sectors per lap"
+        laps:
+          type: array
+          items:
+            type: object
+            properties:
+              lap_number:
+                type: integer
+              sector_boundaries_m:
+                type: array
+                items:
+                  type: number
+                description: "Sector boundary distances in metres, starting with 0.0"
+        average_sector_boundaries_m:
+          type: array
+          items:
+            type: number
+          description: "Averaged sector boundary distances across all laps, starting with 0.0"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: "Human-readable error message"
+
 
   requestBodies:
     StrategyRequest:
@@ -105,8 +139,43 @@ paths:
                 type: object
                 $ref: '#/components/schemas/Strategy'
 
+  /analyze-sectors:
+    post:
+      operationId: app.analyze_sectors
+      description: "Analyzes sector boundaries from a MoTeC .ld telemetry file"
+      tags:
+        - telemetry
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: "MoTeC .ld telemetry file"
+      responses:
+        "200":
+          description: "Successfully analyzed sector boundaries"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectorAnalysisResponse'
+        "400":
+          description: "Bad request — invalid or unsupported file"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 tags:
   - name: strategy
     description: "Strategy calls"
+  - name: telemetry
+    description: "Telemetry analysis calls"
 
   
