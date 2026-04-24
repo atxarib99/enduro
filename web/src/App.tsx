@@ -34,7 +34,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
+      <Router basename="/enduro">
         <Box sx={{ display: 'flex' }}>
           <AppBar position="fixed">
             <Toolbar>
@@ -64,7 +64,7 @@ const App: React.FC = () => {
               onKeyDown={toggleDrawer(false)}
             >
               <List>
-                <ListItem button component={Link} to="/">
+                <ListItem button component={Link} to="/home">
                   <ListItemText primary="Home" />
                 </ListItem>
                 <ListItem button component={Link} to="/endurance-calc">
@@ -82,12 +82,12 @@ const App: React.FC = () => {
 
           <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
             <Routes>
-              <Route path="/enduro" element={<Navigate to="/home" replace />} />
+              <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="/home" element={<Home />} />
               <Route path="/endurance-calc" element={<EnduranceCalc />} />
               <Route path="/fuel-calc" element={<FuelCalc />} />
               <Route path="/motec-sector-builder" element={<SectorAnalysis />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </Box>
         </Box>
