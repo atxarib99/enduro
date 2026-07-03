@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info:
-  title: "flop-gen api"
-  description: "REST API for interfacing flop-gen api and engine"
+  title: "enduro api"
+  description: "REST API for interfacing enduro api and engine"
   version: "1.0.0"
   contact:
     name: "Arib Dhuka"
@@ -16,12 +16,54 @@ components:
     Strategy:
       type: object
       properties:
-        todo:
-          type: string
+        strats:
+          type: array
+          items:
+            type: object
+            properties:
+              fuel:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: string
+      example: |
+        [
+          {
+            "3.46-3.54": [
+              [
+                "2025-05-24T00:47:00+00:00",
+                "2025-05-24T01:39:02.500000+00:00"
+              ],
+              [
+                "2025-05-24T01:39:02.500000+00:00",
+                "2025-05-24T02:31:05+00:00"
+              ]
+            ]
+          },
+          {
+            "3.55-3.64": [
+              [
+                "2025-05-24T00:47:00+00:00",
+                "2025-05-24T01:39:02.500000+00:00"
+              ],
+              [
+                "2025-05-24T01:39:02.500000+00:00",
+                "2025-05-24T02:31:05+00:00"
+              ]
+            ]
+          }
+        ]
+
+
+
+
 
     StrategyRequest:
       type: object
       properties:
+        fuel_remaining:
+          type: number
         fuel_usage:
           type: number
         max_fuel:
@@ -30,6 +72,42 @@ components:
           type: number
         lap_time:
           type: number
+        start_time:
+          type: string
+
+    SectorAnalysisResponse:
+      type: object
+      properties:
+        num_laps:
+          type: integer
+          description: "Number of complete laps analyzed"
+        num_sectors:
+          type: integer
+          description: "Number of sectors per lap"
+        laps:
+          type: array
+          items:
+            type: object
+            properties:
+              lap_number:
+                type: integer
+              sector_boundaries_m:
+                type: array
+                items:
+                  type: number
+                description: "Sector boundary distances in metres, starting with 0.0"
+        average_sector_boundaries_m:
+          type: array
+          items:
+            type: number
+          description: "Averaged sector boundary distances across all laps, starting with 0.0"
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: "Human-readable error message"
 
 
   requestBodies:
@@ -61,8 +139,43 @@ paths:
                 type: object
                 $ref: '#/components/schemas/Strategy'
 
+  /analyze-sectors:
+    post:
+      operationId: app.analyze_sectors
+      description: "Analyzes sector boundaries from a MoTeC .ld telemetry file"
+      tags:
+        - telemetry
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: "MoTeC .ld telemetry file"
+      responses:
+        "200":
+          description: "Successfully analyzed sector boundaries"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SectorAnalysisResponse'
+        "400":
+          description: "Bad request — invalid or unsupported file"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 tags:
   - name: strategy
     description: "Strategy calls"
+  - name: telemetry
+    description: "Telemetry analysis calls"
 
   

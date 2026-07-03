@@ -1,171 +1,98 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Slider, Tooltip, IconButton } from '@mui/material';
-
-import InfoIcon from '@mui/icons-material/Info';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Drawer, IconButton, List, ListItem, ListItemText, Toolbar, AppBar, Typography, Box } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { BrowserRouter as Router, Navigate, Route, Routes, Link } from 'react-router-dom';
+import Home from './Home';
+import EnduranceCalc from './EnduranceCalc';
+import FuelCalc from './FuelCalc';
+import SectorAnalysis from './SectorAnalysis';
 
 const App: React.FC = () => {
-  const [fuelUsage, setFuelUsage] = useState<number | "">(3.50);
-  const [maxFuel, setMaxFuel] = useState<number | "">(89);
-  const [raceTime, setRaceTime] = useState<number | "">(3600);
-  const [lapTime, setLapTime] = useState<number | "">(122.5);
-  const [stints, setStints] = useState<any[]>([]); // Replace 'any[]' with a specific type if needed
-  const [sweep, setSweep] = useState<number>(0.05); // Default to 0.05
-  const [pitDelta, setPitDelta] = useState<number>(60); // Default to 0.05
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<number | "">>
-  ) => {
-    const value = event.target.value;
-    setter(value === "" ? "" : parseFloat(value));
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const data = { fuelUsage, maxFuel, raceTime, lapTime, sweep, pitDelta };
-
-    try {
-      const response = await fetch('http://localhost:3001/enduro/v1/generate-strats', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('API call successful:', result);
-      setStints(result); // Update stints with the response data
-    } catch (error) {
-      console.error('Error during API call:', error);
-    }
-  };
+  const theme = createTheme({
+    palette: {
+        primary: {
+            light: '#FF6666',
+            main: '#d40000',
+            dark: '#d40000',
+            contrastText: '#fff',
+          },
+        secondary: {
+            light: '#ff7961',
+            main: '#f44336',
+            dark: '#ba000d',
+            contrastText: '#000',
+          },
+      },
+  })
 
   return (
-    <Box sx={{ padding: '20px' }}>
-      <Typography variant="h4" gutterBottom>
-        Race Strategy Calculator
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Box sx={{ marginBottom: '20px' }}>
-          <TextField
-            label="Fuel Usage (L/lap)"
-            type="number"
-            inputProps={{step: 0.01}}
-            value={fuelUsage}
-            onChange={(e) => handleInputChange(e, setFuelUsage)}
-            fullWidth
-            margin="normal"
-          />
-					<Box sx={{ padding: 2 }}>
-            <Box sx={{ display: "flex", "align-items": "center" }}>
-              <Typography gutterBottom>Fuel Sweep: {sweep !== "" ? sweep.toFixed(2) : "0.05"}</Typography>
-              <Tooltip title={"Will calculate strategies +-" + sweep + "L of fuel in steps of 0.01L"}>
-              <IconButton>
-                <InfoIcon sx={{paddingLeft: "5px"}}>
-                </InfoIcon>
+    <ThemeProvider theme={theme}>
+      <Router basename="/enduro">
+        <Box sx={{ display: 'flex' }}>
+          <AppBar position="fixed">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                edge="start"
+                onClick={toggleDrawer(true)}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
               </IconButton>
-              </Tooltip>
+              <Typography variant="h6" noWrap>
+                Enduro
+              </Typography>
+            </Toolbar>
+          </AppBar>
+
+          <Drawer
+            anchor="left"
+            open={drawerOpen}
+            onClose={toggleDrawer(false)}
+          >
+            <Box
+              sx={{ width: 250 }}
+              role="presentation"
+              onClick={toggleDrawer(false)}
+              onKeyDown={toggleDrawer(false)}
+            >
+              <List>
+                <ListItem button component={Link} to="/home">
+                  <ListItemText primary="Home" />
+                </ListItem>
+                <ListItem button component={Link} to="/endurance-calc">
+                  <ListItemText primary="Endurance Calc" />
+                </ListItem>
+                <ListItem button component={Link} to="/fuel-calc">
+                  <ListItemText primary="Fuel Calc" />
+                </ListItem>
+                <ListItem button component={Link} to="/motec-sector-builder">
+                  <ListItemText primary="MoTeC Sector Builder" />
+                </ListItem>
+              </List>
             </Box>
-						<Slider
-							value={sweep}
-							onChange={(e) => handleInputChange(e, setSweep)}
-							min={0.01}
-							max={1}
-							step={0.01}
-							marks
-							valueLabelDisplay="auto"
-						/>
-					</Box>
-          <TextField
-            label="Max Fuel Capacity (L)"
-            type="number"
-            inputProps={{step: 0.1}}
-            value={maxFuel}
-            onChange={(e) => handleInputChange(e, setMaxFuel)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Race Time (seconds)"
-            type="number"
-            inputProps={{step: 0.1}}
-            value={raceTime}
-            onChange={(e) => handleInputChange(e, setRaceTime)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Lap Time (seconds)"
-            type="number"
-            inputProps={{step: 0.1}}
-            value={lapTime}
-            onChange={(e) => handleInputChange(e, setLapTime)}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Pit Stop Delta (seconds)"
-            type="number"
-            inputProps={{step: 0.1}}
-            value={pitDelta}
-            onChange={(e) => handleInputChange(e, setPitDelta)}
-            fullWidth
-            margin="normal"
-          />
-        </Box>
-        <Button type="submit" variant="contained" color="primary">
-          Calculate Strategy
-        </Button>
-      </form>
+          </Drawer>
 
-      {stints.length > 0 && (
-        <Box sx={{ marginTop: '40px' }}>
-          <Typography variant="h5" gutterBottom>
-            Stints Schedule
-          </Typography>
-
-					{stints.map((stintObj, idx) => {
-						const targetFuel = Object.keys(stintObj)[0];
-						const intervals = stintObj[targetFuel] || [];
-
-						return (
-							<Box sx={{ marginTop: '10px' }}>
-								<body>
-									Stint count: {intervals.length}
-								</body>
-							<TableContainer component={Paper} key={`container-${idx}`}>
-								<Table>
-									<TableHead>
-										<TableRow>
-											<TableCell>Target Fuel Consumption</TableCell>
-											<TableCell>Start Time</TableCell>
-											<TableCell>End Time</TableCell>
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										{intervals.map((interval: [string, string], index: number) => (
-											<TableRow key={`${idx}-${index}`}>
-												<TableCell>{targetFuel}</TableCell>
-												<TableCell>{new Date(interval[0]).toLocaleString()}</TableCell>
-												<TableCell>{new Date(interval[1]).toLocaleString()}</TableCell>
-											</TableRow>
-										))}
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-						);
-					})}
-
+          <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/home" replace />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/endurance-calc" element={<EnduranceCalc />} />
+              <Route path="/fuel-calc" element={<FuelCalc />} />
+              <Route path="/motec-sector-builder" element={<SectorAnalysis />} />
+              <Route path="*" element={<Navigate to="/home" replace />} />
+            </Routes>
           </Box>
-        )}
-    </Box>
+        </Box>
+      </Router> 
+    </ThemeProvider>
   );
 };
 

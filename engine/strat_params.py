@@ -3,6 +3,7 @@ import dataclasses
 
 @dataclasses.dataclass
 class StrategyParameters:
+    remaining_fuel: float
     fuel_usage: float
     max_fuel: float
     remaining_time: float

@@ -1,4 +1,5 @@
 numpy
+pandas
 connexion
 connexion[flask]
 connexion[swagger-ui]
